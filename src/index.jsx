@@ -1,34 +1,43 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import YandexMap from '../components/yandexMap/yandexMap.jsx';
+import Input from '../components/input/input.jsx';
 
 console.clear();
 
-class App extends React.Component {
+window.PointsList = {
+    objectPosition: [],
+    mapCenter: []
+};
 
-    constructor(props) {
-        super(props);
+MicroEvent.mixin(PointsList);
 
-        this.state = {
-            data: 'Initial data...'
-        };
+window.AppDispatcher = {
+    register: function (payload) {
+        var store = window.PointsList;
 
-        this.updateState = this.updateState.bind(this);
-
-    };
-
-    updateState(e) {
-        this.setState({data: e.target.value});
+        switch (payload.eventName) {
+            case 'map-click':
+                store.objectPosition = payload.newItem;
+                store.mapCenter = payload.newItem;
+                break;
+            case 'user-position':
+                store.userPosition = payload.newItem;
+                store.mapCenter = payload.newItem;
+                break;
+        }
+        store.trigger('change');
+    },
+    dispatch: function (payload) {
+        this.register(payload);
     }
+};
 
-    render() {
-        return (
-            <div>
-                <input type = "text" value = {this.state.data}
-                       onChange = {this.updateState} />
-                <h4>{this.state.data}</h4>
-            </div>
-        );
-    }
-}
 
-ReactDOM.render(<App/>, document.getElementsByTagName('body')[0]);
+ReactDOM.render(
+    <div className="bitrixFrendly">
+        <YandexMap/>
+        <Input />
+    </div>,
+    document.getElementById('weather-container')
+);

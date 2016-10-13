@@ -1,5 +1,6 @@
 <html>
     <head>
+        <meta charset="utf-8">
         <title>Scotch Todo</title>
         <!--Stylesheet-->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
@@ -7,12 +8,10 @@
     </head>
     <body>
         <!--Container for React rendering-->
-        <div class="container">
-          <div class="col-md-4 col-md-offset-4">
-            <div id="container"></div>
-          </div>
-        </div>
+        <div id="map-container"></div>
+        <div id="weather-container"></div>
         <!--Bundled file-->
+        <script src="../resources/script/microevent.js"></script>
         <script src="../resources/bundle.js"></script>
     </body>
 </html>
