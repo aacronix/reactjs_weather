@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import YandexMap from '../components/yandexMap/yandexMap.jsx';
-import Input from '../components/input/input.jsx';
+import TextInput from '../components/textInput/textInput.jsx';
 
 console.clear();
 
@@ -37,7 +37,7 @@ window.AppDispatcher = {
 ReactDOM.render(
     <div className="bitrixFrendly">
         <YandexMap/>
-        <Input />
+        <TextInput />
     </div>,
     document.getElementById('weather-container')
 );

@@ -58,9 +58,9 @@
 
 	var _yandexMap2 = _interopRequireDefault(_yandexMap);
 
-	var _input = __webpack_require__(193);
+	var _textInput = __webpack_require__(193);
 
-	var _input2 = _interopRequireDefault(_input);
+	var _textInput2 = _interopRequireDefault(_textInput);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -98,7 +98,7 @@
 	    'div',
 	    { className: 'bitrixFrendly' },
 	    _react2.default.createElement(_yandexMap2.default, null),
-	    _react2.default.createElement(_input2.default, null)
+	    _react2.default.createElement(_textInput2.default, null)
 	), document.getElementById('weather-container'));
 
 /***/ },
@@ -21527,7 +21527,7 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { style: markerStyles },
-	                        _react2.default.createElement('img', { src: '../images/resized/pin-user-position.png' })
+	                        _react2.default.createElement('img', { src: '../images/resized/pin-object-position.png' })
 	                    )
 	                )
 	            );
@@ -22948,7 +22948,7 @@
 /* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var _react = __webpack_require__(1);
 
@@ -22956,33 +22956,63 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Input = _react2.default.createClass({
-	    displayName: "Input",
+	var TextInput = _react2.default.createClass({
+	    displayName: 'TextInput',
 
-	    getInitialState: function getInitialState() {
+	    getDefaultProps: function getDefaultProps() {
 	        return {
-	            value: "Hello!"
+	            name: 'Field',
+	            formns: 'form_event'
 	        };
 	    },
-
-	    handleChange: function handleChange(evt) {
+	    getInitialState: function getInitialState() {
+	        return {
+	            // значение задается в родительском классе, либо берется пустое
+	            value: this.props.value || '',
+	            error: null
+	        };
+	    },
+	    componentWillMount: function componentWillMount() {
+	        // подписываемся на события
+	        // FormBus.Input.attachField.bind(this)();
+	    },
+	    componentWillUnmount: function componentWillUnmount() {
+	        // отписываемся от событий
+	        // FormBus.Input.detachField.bind(this)();
+	    },
+	    setValue: function setValue(e) {
+	        var component = this;
+	        // сохраняем в состоянии текущее значение пользовательского ввода
 	        this.setState({
-	            value: evt.target.value
+	            value: e.currentTarget.value
+	        }, function () {
+	            // отправляем событие об изменении значения
+	            // FormBus.Input.updateField.bind(component)();
 	        });
 	    },
-
-	    componentDidMount: function componentDidMount() {},
-
-	    changeState: function changeState() {
-	        this.forceUpdate();
-	    },
-
 	    render: function render() {
-	        return _react2.default.createElement("input", { value: this.state.value, onChange: this.handleChange });
+
+	        var error = this.state.error ? _react2.default.createElement(
+	            'span',
+	            { id: 'name-error', className: 'error' },
+	            this.state.error
+	        ) : null;
+
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'form-group' },
+	            _react2.default.createElement(
+	                'label',
+	                { className: 'control-label' },
+	                this.props.name,
+	                error
+	            ),
+	            _react2.default.createElement('input', { name: this.props.name, type: 'text', className: 'form-control', onChange: this.setValue, value: this.state.value })
+	        );
 	    }
 	});
 
-	module.exports = Input;
+	module.exports = TextInput;
 
 /***/ }
 /******/ ]);
