@@ -8,9 +8,9 @@ var YandexMap = React.createClass({
             longitude: 37.583314
         };
     },
-    
+
     componentDidMount: function () {
-        window.PointsList.bind('change', this.changeState);
+        window.Tabs.bind('change', this.changeState);
     },
 
     changeState: function () {
@@ -33,13 +33,13 @@ var YandexMap = React.createClass({
         var mapCenterLon = this.state.longitude;
         var marker;
 
-            marker = <Marker lat={objectPositionLat} lon={objectPositionLon}>
-                <MarkerLayout>
-                    <div style={markerStyles}>
-                        <img src="../images/resized/pin-object-position.png"/>
-                    </div>
-                </MarkerLayout>
-            </Marker>;
+        marker = <Marker lat={objectPositionLat} lon={objectPositionLon}>
+            <MarkerLayout>
+                <div style={markerStyles}>
+                    <img src="../images/resized/pin-object-position.png"/>
+                </div>
+            </MarkerLayout>
+        </Marker>;
 
         return <Map onClick={this.handleMapClick}
                     onAPIAvailable={function () { console.log('API loaded'); }}
