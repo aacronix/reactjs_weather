@@ -11,6 +11,27 @@ window.PointsList = {
     mapCenter: []
 };
 
+window.providersInfo = {
+    ru: {
+        "openweather": {
+            name: "Open Weather",
+            link: "https://openweathermap.org/"
+        },
+        "apixu": {
+            name: "Apixu",
+            link: "http://www.apixu.com/"
+        },
+        "weathertrigger": {
+            name: "Weather Trigger",
+            link: "http://www.weatherunlocked.com/"
+        },
+        "yahooweather": {
+            name: "Yahoo Weather",
+            link: "https://developer.yahoo.com/weather/"
+        }
+    }
+};
+
 window.Tabs = {
     tabsList: [{
         "name": "w_0",
@@ -32,13 +53,23 @@ window.Tabs = {
         "measurement_system": "metrical",
         "providers_list": [
             {
-                "name": "openweather1",
+                "name": "openweather",
                 "api_key": "3856eec20ac69363422392a1f2ce262f",
                 "app_key": ""
             },
             {
-                "name": "apixu1",
+                "name": "apixu",
                 "api_key": "b813f52733db4348bfc140812161409",
+                "app_key": ""
+            },
+            {
+                "name": "weathertrigger",
+                "api_key": "safb813f52733db4348bfc140812161409",
+                "app_key": "aofiuyh387rq48rcfml"
+            },
+            {
+                "name" : "yahooweather",
+                "api_key": "",
                 "app_key": ""
             }
         ],
@@ -48,7 +79,7 @@ window.Tabs = {
             "app_key": ""
         }
     }, {
-        "name": "w_0",
+        "name": "w_1",
         "latitude": 55.55,
         "longitude": 44.45,
         "weather_provider": "yahooweather",
@@ -67,12 +98,12 @@ window.Tabs = {
         "measurement_system": "metrical",
         "providers_list": [
             {
-                "name": "openweather2",
+                "name": "openweather",
                 "api_key": "3856eec20ac69363422392a1f2ce262f",
                 "app_key": ""
             },
             {
-                "name": "apixu2",
+                "name": "apixu",
                 "api_key": "b813f52733db4348bfc140812161409",
                 "app_key": ""
             }
@@ -83,7 +114,7 @@ window.Tabs = {
             "app_key": ""
         }
     }, {
-        "name": "w_0",
+        "name": "w_2",
         "latitude": 55.55,
         "longitude": 44.45,
         "weather_provider": "yahooweather",
@@ -102,12 +133,12 @@ window.Tabs = {
         "measurement_system": "metrical",
         "providers_list": [
             {
-                "name": "openweather3",
+                "name": "openweather",
                 "api_key": "3856eec20ac69363422392a1f2ce262f",
                 "app_key": ""
             },
             {
-                "name": "apixu3",
+                "name": "apixu",
                 "api_key": "b813f52733db4348bfc140812161409",
                 "app_key": ""
             }
@@ -135,6 +166,9 @@ window.AppDispatcher = {
                 break;
             case 'tab-changing':
                 tabStore.activeTabId = payload.newItem;
+                break;
+            case 'change-provider':
+                tabStore.tabsList[payload.newItem[0]].weather_provider = payload.newItem[1];
                 break;
         }
 

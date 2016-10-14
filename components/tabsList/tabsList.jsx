@@ -34,7 +34,7 @@ var TabsList = React.createClass({
         return (
             <div key={key} id={data.name}>
                 <div className="tab-content">
-                    <ProviderList providerList={data.providers_list}/>
+                    <ProviderList providerList={data.providers_list} activeProvider={data.weather_provider} providerId={key}/>
                 </div>
             </div>
         );
@@ -46,14 +46,16 @@ var TabsList = React.createClass({
         var selected = window.Tabs.activeTabId;
 
         return (
-            <div>
+            <div className="tabs-wrapper">
                 <div className="tab-list">
                     {window.Tabs.tabsList.map((element, i) => (
                         _this._renderTabs(i, props.data[i])
                     ))}
                 </div>
                 <div className="content-list">
-                    {_this._renderContent(selected, props.data[selected])}
+                    <div className="block">
+                        {_this._renderContent(selected, props.data[selected])}
+                    </div>
                 </div>
             </div>
         );

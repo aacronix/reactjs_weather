@@ -41,14 +41,16 @@ var YandexMap = React.createClass({
             </MarkerLayout>
         </Marker>;
 
-        return <Map onClick={this.handleMapClick}
-                    onAPIAvailable={function () { console.log('API loaded'); }}
-                    width={'100%'}
-                    state={mapState}
-                    center={[mapCenterLat, mapCenterLon]}
-                    zoom={10}>
-            {marker}
-        </Map>;
+        return <div className="yandex-map">
+            <Map onClick={this.handleMapClick}
+                 onAPIAvailable={function () { console.log('API loaded'); }}
+                 width={'100%'}
+                 state={mapState}
+                 center={[mapCenterLat, mapCenterLon]}
+                 zoom={10}>
+                {marker}
+            </Map>
+        </div>
     }
 });
 

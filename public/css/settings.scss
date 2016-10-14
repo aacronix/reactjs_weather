@@ -1,0 +1,38 @@
+$default-margin: 25px;
+$border-radius: 5px;
+$default-font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif;
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+a.active{
+  color: #000000 !important;
+  text-decoration: underline !important;
+}
+
+.yandex-map{
+  padding: $default-margin;
+}
+
+.content-list .block{
+  padding: 10px;
+
+  .title{
+    font-family: $default-font-family;
+    font-size: 24px;
+    font-weight: bold;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #b00c0c;
+    text-indent: 10px;
+  }
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}

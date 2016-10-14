@@ -73,6 +73,27 @@
 	    mapCenter: []
 	};
 
+	window.providersInfo = {
+	    ru: {
+	        "openweather": {
+	            name: "Open Weather",
+	            link: "https://openweathermap.org/"
+	        },
+	        "apixu": {
+	            name: "Apixu",
+	            link: "http://www.apixu.com/"
+	        },
+	        "weathertrigger": {
+	            name: "Weather Trigger",
+	            link: "http://www.weatherunlocked.com/"
+	        },
+	        "yahooweather": {
+	            name: "Yahoo Weather",
+	            link: "https://developer.yahoo.com/weather/"
+	        }
+	    }
+	};
+
 	window.Tabs = {
 	    tabsList: [{
 	        "name": "w_0",
@@ -93,12 +114,20 @@
 	        "show_provider_info": true,
 	        "measurement_system": "metrical",
 	        "providers_list": [{
-	            "name": "openweather1",
+	            "name": "openweather",
 	            "api_key": "3856eec20ac69363422392a1f2ce262f",
 	            "app_key": ""
 	        }, {
-	            "name": "apixu1",
+	            "name": "apixu",
 	            "api_key": "b813f52733db4348bfc140812161409",
+	            "app_key": ""
+	        }, {
+	            "name": "weathertrigger",
+	            "api_key": "safb813f52733db4348bfc140812161409",
+	            "app_key": "aofiuyh387rq48rcfml"
+	        }, {
+	            "name": "yahooweather",
+	            "api_key": "",
 	            "app_key": ""
 	        }],
 	        "active_provider_ref": {
@@ -107,7 +136,7 @@
 	            "app_key": ""
 	        }
 	    }, {
-	        "name": "w_0",
+	        "name": "w_1",
 	        "latitude": 55.55,
 	        "longitude": 44.45,
 	        "weather_provider": "yahooweather",
@@ -125,11 +154,11 @@
 	        "show_provider_info": true,
 	        "measurement_system": "metrical",
 	        "providers_list": [{
-	            "name": "openweather2",
+	            "name": "openweather",
 	            "api_key": "3856eec20ac69363422392a1f2ce262f",
 	            "app_key": ""
 	        }, {
-	            "name": "apixu2",
+	            "name": "apixu",
 	            "api_key": "b813f52733db4348bfc140812161409",
 	            "app_key": ""
 	        }],
@@ -139,7 +168,7 @@
 	            "app_key": ""
 	        }
 	    }, {
-	        "name": "w_0",
+	        "name": "w_2",
 	        "latitude": 55.55,
 	        "longitude": 44.45,
 	        "weather_provider": "yahooweather",
@@ -157,11 +186,11 @@
 	        "show_provider_info": true,
 	        "measurement_system": "metrical",
 	        "providers_list": [{
-	            "name": "openweather3",
+	            "name": "openweather",
 	            "api_key": "3856eec20ac69363422392a1f2ce262f",
 	            "app_key": ""
 	        }, {
-	            "name": "apixu3",
+	            "name": "apixu",
 	            "api_key": "b813f52733db4348bfc140812161409",
 	            "app_key": ""
 	        }],
@@ -188,6 +217,9 @@
 	                break;
 	            case 'tab-changing':
 	                tabStore.activeTabId = payload.newItem;
+	                break;
+	            case 'change-provider':
+	                tabStore.tabsList[payload.newItem[0]].weather_provider = payload.newItem[1];
 	                break;
 	        }
 
@@ -21644,16 +21676,20 @@
 	        );
 
 	        return _react2.default.createElement(
-	            _yandexMapReact.Map,
-	            { onClick: this.handleMapClick,
-	                onAPIAvailable: function onAPIAvailable() {
-	                    console.log('API loaded');
-	                },
-	                width: '100%',
-	                state: mapState,
-	                center: [mapCenterLat, mapCenterLon],
-	                zoom: 10 },
-	            marker
+	            'div',
+	            { className: 'yandex-map' },
+	            _react2.default.createElement(
+	                _yandexMapReact.Map,
+	                { onClick: this.handleMapClick,
+	                    onAPIAvailable: function onAPIAvailable() {
+	                        console.log('API loaded');
+	                    },
+	                    width: '100%',
+	                    state: mapState,
+	                    center: [mapCenterLat, mapCenterLon],
+	                    zoom: 10 },
+	                marker
+	            )
 	        );
 	    }
 	});
@@ -23114,7 +23150,7 @@
 	            _react2.default.createElement(
 	                'div',
 	                { className: 'tab-content' },
-	                _react2.default.createElement(_providerList2.default, { providerList: data.providers_list })
+	                _react2.default.createElement(_providerList2.default, { providerList: data.providers_list, activeProvider: data.weather_provider, providerId: key })
 	            )
 	        );
 	    },
@@ -23126,7 +23162,7 @@
 
 	        return _react2.default.createElement(
 	            'div',
-	            null,
+	            { className: 'tabs-wrapper' },
 	            _react2.default.createElement(
 	                'div',
 	                { className: 'tab-list' },
@@ -23137,7 +23173,11 @@
 	            _react2.default.createElement(
 	                'div',
 	                { className: 'content-list' },
-	                _this._renderContent(selected, props.data[selected])
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'block' },
+	                    _this._renderContent(selected, props.data[selected])
+	                )
 	            )
 	        );
 	    }
@@ -23167,12 +23207,20 @@
 	    render: function render() {
 	        var _this = this;
 	        var props = this.props;
+	        var activeProvider = props.activeProvider;
+
+	        console.log(props);
 
 	        return _react2.default.createElement(
 	            'div',
-	            null,
+	            { className: 'providers' },
+	            _react2.default.createElement(
+	                'p',
+	                { className: 'title' },
+	                '\u041F\u0440\u043E\u0432\u0430\u0439\u0434\u0435\u0440\u044B'
+	            ),
 	            props.providerList.map(function (element, i) {
-	                return _react2.default.createElement(_providerItem2.default, { data: element.name, key: i });
+	                return _react2.default.createElement(_providerItem2.default, { data: element, key: i, activeProvider: activeProvider, providerId: _this.props.providerId });
 	            })
 	        );
 	    }
@@ -23195,14 +23243,70 @@
 	var ProviderItem = _react2.default.createClass({
 	    displayName: 'ProviderItem',
 
+	    getInitialState: function getInitialState() {
+	        return {
+	            selectedOption: this.props.providerId,
+	            provider: this.props.data.name
+	        };
+	    },
+
+	    handleOptionChange: function handleOptionChange() {
+	        AppDispatcher.dispatch({
+	            eventName: 'change-provider',
+	            newItem: [this.state.selectedOption, this.state.provider]
+	        });
+	    },
 	    render: function render() {
+	        var storage = window.Tabs.tabsList;
+
 	        var _this = this;
-	        var props = this.props;
+	        var props = this.props.data;
+	        var providerInfo = providersInfo.ru[props.name];
+
+	        var ApiLine;
+	        var AppLine;
+
+	        if (props.api_key.length > 0) {
+	            ApiLine = _react2.default.createElement(
+	                'div',
+	                { className: 'line clearfix' },
+	                _react2.default.createElement(
+	                    'p',
+	                    { className: 'label' },
+	                    'Api key:'
+	                ),
+	                _react2.default.createElement('input', { type: 'text', name: props.name + '_api_key', value: props.api_key })
+	            );
+	        }
+
+	        if (props.app_key.length > 0) {
+	            AppLine = _react2.default.createElement(
+	                'div',
+	                { className: 'line clearfix' },
+	                _react2.default.createElement(
+	                    'p',
+	                    { className: 'label' },
+	                    'App key:'
+	                ),
+	                _react2.default.createElement('input', { type: 'text', name: props.name + '_app_key', value: props.app_key })
+	            );
+	        }
 
 	        return _react2.default.createElement(
-	            'p',
-	            null,
-	            props.data
+	            'div',
+	            { className: 'provider' },
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'line clearfix' },
+	                _react2.default.createElement('input', { name: 'weather-provider', type: 'radio', value: props.name, checked: props.name === storage[this.state.selectedOption].weather_provider, onChange: this.handleOptionChange }),
+	                _react2.default.createElement(
+	                    'a',
+	                    { className: 'provider-name', href: providerInfo.link, target: '_blank' },
+	                    providerInfo.name
+	                )
+	            ),
+	            ApiLine,
+	            AppLine
 	        );
 	    }
 	});
