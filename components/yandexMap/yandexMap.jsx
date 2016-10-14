@@ -8,7 +8,7 @@ var YandexMap = React.createClass({
             longitude: 37.583314
         };
     },
-
+    
     componentDidMount: function () {
         window.PointsList.bind('change', this.changeState);
     },
@@ -18,23 +18,21 @@ var YandexMap = React.createClass({
     },
 
     handleChange: function (evt) {
-        console.log(evt);
     },
 
     handleMapClick: function (event) {
-        AppDispatcher.dispatch({eventName: 'map-click', newItem: event.get('coords')});
+        var clickCoords = event.get('coords');
+        AppDispatcher.dispatch({eventName: 'map-click', newItem: clickCoords});
     },
 
     render: function () {
-        var store = window.PointsList;
-        var objectPositionLat = store.objectPosition[0];
-        var objectPositionLon = store.objectPosition[1];
+        var store = window.Tabs;
+        var objectPositionLat = store.tabsList[store.activeTabId].latitude;
+        var objectPositionLon = store.tabsList[store.activeTabId].longitude;
         var mapCenterLat = this.state.latitude;
         var mapCenterLon = this.state.longitude;
-
         var marker;
 
-        if (store.objectPosition.length > 0) {
             marker = <Marker lat={objectPositionLat} lon={objectPositionLon}>
                 <MarkerLayout>
                     <div style={markerStyles}>
@@ -42,7 +40,6 @@ var YandexMap = React.createClass({
                     </div>
                 </MarkerLayout>
             </Marker>;
-        }
 
         return <Map onClick={this.handleMapClick}
                     onAPIAvailable={function () { console.log('API loaded'); }}
