@@ -97,6 +97,15 @@ var ViewOptionsList = React.createClass({
         });
     },
 
+    handleDeleteWidgetButtonClick: function () {
+        AppDispatcher.dispatch({
+            eventName: 'delete-widget',
+            newItem: [this.state.provider, null]
+        });
+        
+        this.forceUpdate();
+    },
+
     render: function () {
         var storage = window.Tabs.tabsList;
 
@@ -145,6 +154,14 @@ var ViewOptionsList = React.createClass({
                 }
             }
         });
+
+        var deletePermission = <div className="line clearfix">
+            <input type="button" name="delete_widget" value="Удалить виджет" onClick={this.handleDeleteWidgetButtonClick}/>
+        </div>;
+
+        if (storage[activeProvider].super){
+            deletePermission = '';
+        }
 
         return (
             <div className="view-options b-option">
@@ -211,6 +228,7 @@ var ViewOptionsList = React.createClass({
                     <p className="label">Название виджета</p>
                     <input type="text" name="widget_name" value={storage[activeProvider].widget_name} onChange={this.handleNameChange}/>
                 </div>
+                {deletePermission}
             </div>
         );
     }

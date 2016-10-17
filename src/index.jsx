@@ -55,6 +55,7 @@ window.providersInfo = {
 
 window.Tabs = {
     tabsList: [{
+        "super": true,
         "name": "w_0",
         "latitude": 55.55,
         "longitude": 44.45,
@@ -111,6 +112,7 @@ window.Tabs = {
             "app_key": ""
         }
     }, {
+        "super": false,
         "name": "w_1",
         "latitude": 45.55,
         "longitude": 44.45,
@@ -167,6 +169,7 @@ window.Tabs = {
             "app_key": ""
         }
     }, {
+        "super": false,
         "name": "w_2",
         "latitude": 35.55,
         "longitude": 44.45,
@@ -271,9 +274,12 @@ window.AppDispatcher = {
             case 'copy-widget':
                 var sliced = tabStore.tabsList.slice();
                 var newObject = Object.assign({}, sliced[0]);
-                var id = sliced.push(newObject) - 1;
-                
-                tabStore.tabsList = sliced;
+                newObject.super = false;
+                tabStore.tabsList.push(newObject);
+                break;
+            case 'delete-widget':
+                tabStore.tabsList.splice(payload.newItem[0], 1);
+                tabStore.activeTabId = 0;
                 break;
         }
 

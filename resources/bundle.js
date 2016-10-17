@@ -116,6 +116,7 @@
 
 	window.Tabs = {
 	    tabsList: [{
+	        "super": true,
 	        "name": "w_0",
 	        "latitude": 55.55,
 	        "longitude": 44.45,
@@ -165,6 +166,7 @@
 	            "app_key": ""
 	        }
 	    }, {
+	        "super": false,
 	        "name": "w_1",
 	        "latitude": 45.55,
 	        "longitude": 44.45,
@@ -214,6 +216,7 @@
 	            "app_key": ""
 	        }
 	    }, {
+	        "super": false,
 	        "name": "w_2",
 	        "latitude": 35.55,
 	        "longitude": 44.45,
@@ -311,9 +314,12 @@
 	            case 'copy-widget':
 	                var sliced = tabStore.tabsList.slice();
 	                var newObject = Object.assign({}, sliced[0]);
-	                var id = sliced.push(newObject) - 1;
-
-	                tabStore.tabsList = sliced;
+	                newObject.super = false;
+	                tabStore.tabsList.push(newObject);
+	                break;
+	            case 'delete-widget':
+	                tabStore.tabsList.splice(payload.newItem[0], 1);
+	                tabStore.activeTabId = 0;
 	                break;
 	        }
 
@@ -23227,8 +23233,6 @@
 	            eventName: 'copy-widget',
 	            newItem: null
 	        });
-
-	        this.forceUpdate();
 	    },
 
 	    _renderTabs: function _renderTabs(key) {
@@ -23559,6 +23563,15 @@
 	        });
 	    },
 
+	    handleDeleteWidgetButtonClick: function handleDeleteWidgetButtonClick() {
+	        AppDispatcher.dispatch({
+	            eventName: 'delete-widget',
+	            newItem: [this.state.provider, null]
+	        });
+
+	        this.forceUpdate();
+	    },
+
 	    render: function render() {
 	        var storage = window.Tabs.tabsList;
 
@@ -23607,6 +23620,16 @@
 	                }
 	            }
 	        });
+
+	        var deletePermission = _react2.default.createElement(
+	            'div',
+	            { className: 'line clearfix' },
+	            _react2.default.createElement('input', { type: 'button', name: 'delete_widget', value: '\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u0432\u0438\u0434\u0436\u0435\u0442', onClick: this.handleDeleteWidgetButtonClick })
+	        );
+
+	        if (storage[activeProvider].super) {
+	            deletePermission = '';
+	        }
 
 	        return _react2.default.createElement(
 	            'div',
@@ -23765,7 +23788,8 @@
 	                    '\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435 \u0432\u0438\u0434\u0436\u0435\u0442\u0430'
 	                ),
 	                _react2.default.createElement('input', { type: 'text', name: 'widget_name', value: storage[activeProvider].widget_name, onChange: this.handleNameChange })
-	            )
+	            ),
+	            deletePermission
 	        );
 	    }
 	});

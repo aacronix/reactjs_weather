@@ -23,8 +23,6 @@ var TabsList = React.createClass({
             eventName: 'copy-widget',
             newItem: null
         });
-
-        this.forceUpdate();
     },
 
     _renderTabs: function (key) {
