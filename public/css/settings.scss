@@ -9,19 +9,43 @@ $default-font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica 
   border-radius: $radius;
 }
 
-a.active{
+a.active {
   color: #000000 !important;
   text-decoration: underline !important;
 }
 
-.yandex-map{
+.yandex-map {
   padding: $default-margin;
 }
 
-.content-list .block{
+.content-list .block {
   padding: 10px;
 
-  .title{
+  .b-option {
+    width: 50%;
+    float: left;
+    padding: 10px;
+    margin: 10px 0;
+
+    @media (max-width: 800px) {
+      width: 100%;
+      float: none;
+      border-right: none !important;
+    }
+
+    &:not(:last-child) {
+      border-right: 1px solid #f0cc59;
+    }
+
+    .bg-color{
+      width: 100px;
+      height: 50px;
+      cursor: pointer;
+      border: 1px black solid;
+    }
+  }
+
+  .title {
     font-family: $default-font-family;
     font-size: 24px;
     font-weight: bold;

@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import ProviderItem from '../providerItem/providerItem.jsx';
 
@@ -7,10 +9,8 @@ var ProviderList = React.createClass({
         var props = this.props;
         var activeProvider = props.activeProvider;
 
-        console.log(props);
-
         return (
-            <div className="providers">
+            <div className="providers b-option">
                 <p className="title">Провайдеры</p>
                 {props.providerList.map((element, i) => (
                     <ProviderItem data={element} key={i} activeProvider={activeProvider} providerId={_this.props.providerId}/>

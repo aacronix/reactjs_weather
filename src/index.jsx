@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import YandexMap from '../components/yandexMap/yandexMap.jsx';
 import TabsList from '../components/tabsList/tabsList.jsx';
+
 import {MaterialPicker} from 'react-color';
 
 console.clear();
@@ -15,19 +16,39 @@ window.providersInfo = {
     ru: {
         "openweather": {
             name: "Open Weather",
-            link: "https://openweathermap.org/"
+            link: "https://openweathermap.org/",
+            api: true,
+            app: false
         },
         "apixu": {
             name: "Apixu",
-            link: "http://www.apixu.com/"
+            link: "http://www.apixu.com/",
+            api: true,
+            app: false
         },
         "weathertrigger": {
             name: "Weather Trigger",
-            link: "http://www.weatherunlocked.com/"
+            link: "http://www.weatherunlocked.com/",
+            api: true,
+            app: true
         },
         "yahooweather": {
             name: "Yahoo Weather",
-            link: "https://developer.yahoo.com/weather/"
+            link: "https://developer.yahoo.com/weather/",
+            api: false,
+            app: false
+        },
+        "forecastio": {
+            name: "Darksky Net",
+            link: "https://www.wunderground.com/weather/api",
+            api: true,
+            app: false
+        },
+        "wunderground": {
+            name: "Wunderground",
+            link: "https://darksky.net/dev/",
+            api: true,
+            app: false
         }
     }
 };
@@ -39,6 +60,63 @@ window.Tabs = {
         "longitude": 44.45,
         "weather_provider": "yahooweather",
         "widget_title": "Погода в Йошкар-Оле",
+        "widget_name" : "default",
+        "wunderground_api_key": "",
+        "forecastio_api_key": "",
+        "weathertrigger_api_key": "",
+        "weathertrigger_app_key": "",
+        "apixu_api_key": "",
+        "openweather_api_key": "",
+        "background_color": "rgba(255, 0, 255, 1)",
+        "major_text_color": "#ffffff",
+        "extra_text_color": "#ffffff",
+        "update_interval": 30,
+        "show_provider_info": true,
+        "measurement_system": "metrical",
+        "providers_list": [
+            {
+                "name": "openweather",
+                "api_key": "3856eec20ac69363422392a1f2ce262f",
+                "app_key": ""
+            },
+            {
+                "name": "apixu",
+                "api_key": "b813f52733db4348bfc140812161409",
+                "app_key": ""
+            },
+            {
+                "name": "weathertrigger",
+                "api_key": "",
+                "app_key": ""
+            },
+            {
+                "name" : "yahooweather",
+                "api_key": "",
+                "app_key": ""
+            },
+            {
+                "name" : "forecastio",
+                "api_key": "",
+                "app_key": ""
+            },
+            {
+                "name" : "wunderground",
+                "api_key": "",
+                "app_key": ""
+            }
+        ],
+        "active_provider_ref": {
+            "name": "yahooweather",
+            "api_key": "",
+            "app_key": ""
+        }
+    }, {
+        "name": "w_1",
+        "latitude": 45.55,
+        "longitude": 44.45,
+        "widget_name" : "Казань",
+        "weather_provider": "forecastio",
+        "widget_title": "Погода в Казани",
         "wunderground_api_key": "",
         "forecastio_api_key": "",
         "weathertrigger_api_key": "",
@@ -48,7 +126,7 @@ window.Tabs = {
         "background_color": "rgba(0, 0, 0, 1)",
         "major_text_color": "#ffffff",
         "extra_text_color": "#ffffff",
-        "update_interval": 120,
+        "update_interval": 360,
         "show_provider_info": true,
         "measurement_system": "metrical",
         "providers_list": [
@@ -71,40 +149,15 @@ window.Tabs = {
                 "name" : "yahooweather",
                 "api_key": "",
                 "app_key": ""
-            }
-        ],
-        "active_provider_ref": {
-            "name": "yahooweather",
-            "api_key": "",
-            "app_key": ""
-        }
-    }, {
-        "name": "w_1",
-        "latitude": 55.55,
-        "longitude": 44.45,
-        "weather_provider": "yahooweather",
-        "widget_title": "Погода в Казани",
-        "wunderground_api_key": "",
-        "forecastio_api_key": "",
-        "weathertrigger_api_key": "",
-        "weathertrigger_app_key": "",
-        "apixu_api_key": "",
-        "openweather_api_key": "",
-        "background_color": "rgba(0, 0, 0, 1)",
-        "major_text_color": "#ffffff",
-        "extra_text_color": "#ffffff",
-        "update_interval": 120,
-        "show_provider_info": true,
-        "measurement_system": "metrical",
-        "providers_list": [
+            },
             {
-                "name": "openweather",
-                "api_key": "3856eec20ac69363422392a1f2ce262f",
+                "name" : "forecastio",
+                "api_key": "",
                 "app_key": ""
             },
             {
-                "name": "apixu",
-                "api_key": "b813f52733db4348bfc140812161409",
+                "name" : "wunderground",
+                "api_key": "",
                 "app_key": ""
             }
         ],
@@ -115,10 +168,11 @@ window.Tabs = {
         }
     }, {
         "name": "w_2",
-        "latitude": 55.55,
+        "latitude": 35.55,
         "longitude": 44.45,
-        "weather_provider": "yahooweather",
+        "weather_provider": "apixu",
         "widget_title": "Погода в Нижнем Новгороде",
+        "widget_name" : "Нижний Новгород",
         "wunderground_api_key": "",
         "forecastio_api_key": "",
         "weathertrigger_api_key": "",
@@ -126,11 +180,11 @@ window.Tabs = {
         "apixu_api_key": "",
         "openweather_api_key": "",
         "background_color": "rgba(0, 0, 0, 1)",
-        "major_text_color": "#ffffff",
-        "extra_text_color": "#ffffff",
+        "major_text_color": "#f0f",
+        "extra_text_color": "#3d3",
         "update_interval": 120,
         "show_provider_info": true,
-        "measurement_system": "metrical",
+        "measurement_system": "britain",
         "providers_list": [
             {
                 "name": "openweather",
@@ -140,6 +194,26 @@ window.Tabs = {
             {
                 "name": "apixu",
                 "api_key": "b813f52733db4348bfc140812161409",
+                "app_key": ""
+            },
+            {
+                "name": "weathertrigger",
+                "api_key": "safb813f52733db4348bfc140812161409",
+                "app_key": "aofiuyh387rq48rcfml"
+            },
+            {
+                "name" : "yahooweather",
+                "api_key": "",
+                "app_key": ""
+            },
+            {
+                "name" : "forecastio",
+                "api_key": "",
+                "app_key": ""
+            },
+            {
+                "name" : "wunderground",
+                "api_key": "",
                 "app_key": ""
             }
         ],
@@ -169,6 +243,24 @@ window.AppDispatcher = {
                 break;
             case 'change-provider':
                 tabStore.tabsList[payload.newItem[0]].weather_provider = payload.newItem[1];
+                break;
+            case 'change-update-interval':
+                tabStore.tabsList[payload.newItem[0]].update_interval = payload.newItem[1];
+                break;
+            case 'change-measurement-system':
+                tabStore.tabsList[payload.newItem[0]].measurement_system = payload.newItem[1];
+                break;
+            case 'change-bg-color':
+                tabStore.tabsList[payload.newItem[0]].background_color = payload.newItem[1];
+                break;
+            case 'change-major-text-color':
+                tabStore.tabsList[payload.newItem[0]].major_text_color = payload.newItem[1];
+                break;
+            case 'change-extra-text-color':
+                tabStore.tabsList[payload.newItem[0]].extra_text_color = payload.newItem[1];
+                break;
+            case 'change-title':
+                tabStore.tabsList[payload.newItem[0]].widget_title = payload.newItem[1];
                 break;
         }
 

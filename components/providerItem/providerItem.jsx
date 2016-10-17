@@ -4,7 +4,7 @@ var ProviderItem = React.createClass({
     getInitialState: function () {
         return {
             selectedOption: this.props.providerId,
-            provider: this.props.data.name
+            provider: this.props.data.activeProvider
         };
     },
 
@@ -24,14 +24,14 @@ var ProviderItem = React.createClass({
         var ApiLine;
         var AppLine;
 
-        if (props.api_key.length > 0){
+        if (providerInfo.api){
             ApiLine = <div className="line clearfix">
                 <p className="label">Api key:</p>
                 <input type="text" name={props.name + '_api_key'} value={props.api_key}/>
             </div>;
         }
 
-        if (props.app_key.length > 0){
+        if (providerInfo.app){
             AppLine = <div className="line clearfix">
                 <p className="label">App key:</p>
                 <input type="text" name={props.name + '_app_key'}  value={props.app_key}/>

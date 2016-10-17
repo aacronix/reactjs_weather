@@ -21,19 +21,21 @@
     width: 98%;
     margin: 0 auto; }
   .tabs-wrapper .tab-content .provider:not(:last-child) {
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid #cccccc;
     padding-bottom: 10px; }
   .tabs-wrapper .tab-content .provider:not(:first-child) {
     padding-top: 10px; }
-  .tabs-wrapper .tab-content .provider .line .label {
+  .tabs-wrapper .tab-content .line .label {
     font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif;
-    min-width: 5%;
+    min-width: 30%;
     color: #333;
     text-align: left;
     font-size: 16px;
     display: block;
     float: left;
     padding: 2px 0; }
+  .tabs-wrapper .tab-content .line input[type=text] {
+    width: 300px; }
 
 a.active {
   color: #000000 !important;
@@ -44,6 +46,23 @@ a.active {
 
 .content-list .block {
   padding: 10px; }
+  .content-list .block .b-option {
+    width: 50%;
+    float: left;
+    padding: 10px;
+    margin: 10px 0; }
+    @media (max-width: 800px) {
+      .content-list .block .b-option {
+        width: 100%;
+        float: none;
+        border-right: none !important; } }
+    .content-list .block .b-option:not(:last-child) {
+      border-right: 1px solid #f0cc59; }
+    .content-list .block .b-option .bg-color {
+      width: 100px;
+      height: 50px;
+      cursor: pointer;
+      border: 1px black solid; }
   .content-list .block .title {
     font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif;
     font-size: 24px;

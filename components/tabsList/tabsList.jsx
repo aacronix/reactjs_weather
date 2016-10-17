@@ -1,5 +1,6 @@
 import React from 'react';
 import ProviderList from '../providerList/providerList.jsx';
+import ViewOptionsList from '../viewOptionsList/viewOptionsList.jsx';
 
 var TabsList = React.createClass({
     componentDidMount: function () {
@@ -25,7 +26,7 @@ var TabsList = React.createClass({
         return (
             <div key={key} id={data.name} className={activeClass}>
                 <a href={'#' + data.name} onClick={function(){_this._handleClick(key)}}
-                   className="tab-element">{data.widget_title}</a>
+                   className="tab-element">{data.widget_name}</a>
             </div>
         );
     },
@@ -33,8 +34,9 @@ var TabsList = React.createClass({
     _renderContent: function (key, data) {
         return (
             <div key={key} id={data.name}>
-                <div className="tab-content">
+                <div className="tab-content clearfix">
                     <ProviderList providerList={data.providers_list} activeProvider={data.weather_provider} providerId={key}/>
+                    <ViewOptionsList activeProvider={key}/>
                 </div>
             </div>
         );
