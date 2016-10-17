@@ -71,7 +71,7 @@ window.Tabs = {
         "major_text_color": "#ffffff",
         "extra_text_color": "#ffffff",
         "update_interval": 30,
-        "show_provider_info": true,
+        "show_provider_info": false,
         "measurement_system": "metrical",
         "providers_list": [
             {
@@ -259,8 +259,21 @@ window.AppDispatcher = {
             case 'change-extra-text-color':
                 tabStore.tabsList[payload.newItem[0]].extra_text_color = payload.newItem[1];
                 break;
-            case 'change-title':
+            case 'change-widget-title':
                 tabStore.tabsList[payload.newItem[0]].widget_title = payload.newItem[1];
+                break;
+            case 'change-widget-name':
+                tabStore.tabsList[payload.newItem[0]].widget_name = payload.newItem[1];
+                break;
+            case 'change-show-provider-info':
+                tabStore.tabsList[payload.newItem[0]].show_provider_info = payload.newItem[1];
+                break;
+            case 'copy-widget':
+                var sliced = tabStore.tabsList.slice();
+                var newObject = Object.assign({}, sliced[0]);
+                var id = sliced.push(newObject) - 1;
+                
+                tabStore.tabsList = sliced;
                 break;
         }
 

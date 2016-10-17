@@ -18,24 +18,48 @@ var TabsList = React.createClass({
         });
     },
 
-    _renderTabs: function (key, data) {
+    _handleCopyWidget: function () {
+        AppDispatcher.dispatch({
+            eventName: 'copy-widget',
+            newItem: null
+        });
+
+        this.forceUpdate();
+    },
+
+    _renderTabs: function (key) {
         var _this = this;
         var storage = window.Tabs;
-
         var activeClass = (storage.activeTabId === key ? 'active' : '');
-        return (
-            <div key={key} id={data.name} className={activeClass}>
-                <a href={'#' + data.name} onClick={function(){_this._handleClick(key)}}
-                   className="tab-element">{data.widget_name}</a>
+        
+        var widget = storage.tabsList[key];
+        
+        var element = <div key={key} id={widget.name} className={activeClass}>
+            <a href={'#' + widget.name} onClick={function(){_this._handleClick(key)}}
+               className="tab-element">{widget.widget_name}</a>
+        </div>;
+
+        if (key == 0) {
+            element = <div key={key} id={widget.name} className={activeClass+ ' default-widget'}>
+                <a href={'#' + widget.name} onClick={function(){_this._handleClick(key)}}
+                   className="tab-element">{widget.widget_name}</a>
+                <span onClick={_this._handleCopyWidget} className="copy-widget">+</span>
             </div>
+        }
+
+        return (
+            element
         );
     },
 
-    _renderContent: function (key, data) {
+    _renderContent: function (key) {
+        var widget = window.Tabs.tabsList[key];
+
         return (
-            <div key={key} id={data.name}>
+            <div key={key} id={widget.name}>
                 <div className="tab-content clearfix">
-                    <ProviderList providerList={data.providers_list} activeProvider={data.weather_provider} providerId={key}/>
+                    <ProviderList providerList={widget.providers_list} activeProvider={widget.weather_provider}
+                                  providerId={key}/>
                     <ViewOptionsList activeProvider={key}/>
                 </div>
             </div>
@@ -51,12 +75,12 @@ var TabsList = React.createClass({
             <div className="tabs-wrapper">
                 <div className="tab-list">
                     {window.Tabs.tabsList.map((element, i) => (
-                        _this._renderTabs(i, props.data[i])
+                        _this._renderTabs(i)
                     ))}
                 </div>
                 <div className="content-list">
                     <div className="block">
-                        {_this._renderContent(selected, props.data[selected])}
+                        {_this._renderContent(selected)}
                     </div>
                 </div>
             </div>

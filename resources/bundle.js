@@ -132,7 +132,7 @@
 	        "major_text_color": "#ffffff",
 	        "extra_text_color": "#ffffff",
 	        "update_interval": 30,
-	        "show_provider_info": true,
+	        "show_provider_info": false,
 	        "measurement_system": "metrical",
 	        "providers_list": [{
 	            "name": "openweather",
@@ -299,8 +299,21 @@
 	            case 'change-extra-text-color':
 	                tabStore.tabsList[payload.newItem[0]].extra_text_color = payload.newItem[1];
 	                break;
-	            case 'change-title':
+	            case 'change-widget-title':
 	                tabStore.tabsList[payload.newItem[0]].widget_title = payload.newItem[1];
+	                break;
+	            case 'change-widget-name':
+	                tabStore.tabsList[payload.newItem[0]].widget_name = payload.newItem[1];
+	                break;
+	            case 'change-show-provider-info':
+	                tabStore.tabsList[payload.newItem[0]].show_provider_info = payload.newItem[1];
+	                break;
+	            case 'copy-widget':
+	                var sliced = tabStore.tabsList.slice();
+	                var newObject = Object.assign({}, sliced[0]);
+	                var id = sliced.push(newObject) - 1;
+
+	                tabStore.tabsList = sliced;
 	                break;
 	        }
 
@@ -23209,33 +23222,69 @@
 	        });
 	    },
 
-	    _renderTabs: function _renderTabs(key, data) {
+	    _handleCopyWidget: function _handleCopyWidget() {
+	        AppDispatcher.dispatch({
+	            eventName: 'copy-widget',
+	            newItem: null
+	        });
+
+	        this.forceUpdate();
+	    },
+
+	    _renderTabs: function _renderTabs(key) {
 	        var _this = this;
 	        var storage = window.Tabs;
-
 	        var activeClass = storage.activeTabId === key ? 'active' : '';
-	        return _react2.default.createElement(
+
+	        var widget = storage.tabsList[key];
+
+	        var element = _react2.default.createElement(
 	            'div',
-	            { key: key, id: data.name, className: activeClass },
+	            { key: key, id: widget.name, className: activeClass },
 	            _react2.default.createElement(
 	                'a',
-	                { href: '#' + data.name, onClick: function onClick() {
+	                { href: '#' + widget.name, onClick: function onClick() {
 	                        _this._handleClick(key);
 	                    },
 	                    className: 'tab-element' },
-	                data.widget_name
+	                widget.widget_name
 	            )
 	        );
+
+	        if (key == 0) {
+	            element = _react2.default.createElement(
+	                'div',
+	                { key: key, id: widget.name, className: activeClass + ' default-widget' },
+	                _react2.default.createElement(
+	                    'a',
+	                    { href: '#' + widget.name, onClick: function onClick() {
+	                            _this._handleClick(key);
+	                        },
+	                        className: 'tab-element' },
+	                    widget.widget_name
+	                ),
+	                _react2.default.createElement(
+	                    'span',
+	                    { onClick: _this._handleCopyWidget, className: 'copy-widget' },
+	                    '+'
+	                )
+	            );
+	        }
+
+	        return element;
 	    },
 
-	    _renderContent: function _renderContent(key, data) {
+	    _renderContent: function _renderContent(key) {
+	        var widget = window.Tabs.tabsList[key];
+
 	        return _react2.default.createElement(
 	            'div',
-	            { key: key, id: data.name },
+	            { key: key, id: widget.name },
 	            _react2.default.createElement(
 	                'div',
 	                { className: 'tab-content clearfix' },
-	                _react2.default.createElement(_providerList2.default, { providerList: data.providers_list, activeProvider: data.weather_provider, providerId: key }),
+	                _react2.default.createElement(_providerList2.default, { providerList: widget.providers_list, activeProvider: widget.weather_provider,
+	                    providerId: key }),
 	                _react2.default.createElement(_viewOptionsList2.default, { activeProvider: key })
 	            )
 	        );
@@ -23253,7 +23302,7 @@
 	                'div',
 	                { className: 'tab-list' },
 	                window.Tabs.tabsList.map(function (element, i) {
-	                    return _this._renderTabs(i, props.data[i]);
+	                    return _this._renderTabs(i);
 	                })
 	            ),
 	            _react2.default.createElement(
@@ -23262,7 +23311,7 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'block' },
-	                    _this._renderContent(selected, props.data[selected])
+	                    _this._renderContent(selected)
 	                )
 	            )
 	        );
@@ -23489,7 +23538,23 @@
 
 	    handleTitleChange: function handleTitleChange(event) {
 	        AppDispatcher.dispatch({
-	            eventName: 'change-title',
+	            eventName: 'change-widget-title',
+	            newItem: [this.state.provider, event.target.value]
+	        });
+	    },
+
+	    handleChangeShowProviderInfo: function handleChangeShowProviderInfo() {
+	        var storage = window.Tabs.tabsList;
+
+	        AppDispatcher.dispatch({
+	            eventName: 'change-show-provider-info',
+	            newItem: [this.state.provider, !storage[this.state.provider].show_provider_info]
+	        });
+	    },
+
+	    handleNameChange: function handleNameChange(event) {
+	        AppDispatcher.dispatch({
+	            eventName: 'change-widget-name',
 	            newItem: [this.state.provider, event.target.value]
 	        });
 	    },
@@ -23680,6 +23745,26 @@
 	                    _react2.default.createElement(_reactColor.SketchPicker, { disableAlpha: true, color: storage[activeProvider].extra_text_color,
 	                        onChange: this.handleChangeExtraTextColor })
 	                ) : null
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'line clearfix' },
+	                _react2.default.createElement(
+	                    'p',
+	                    { className: 'label' },
+	                    '\u041F\u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0442\u044C \u043F\u0440\u043E\u0432\u0430\u0439\u0434\u0435\u0440\u0430 \u043D\u0430 \u0432\u0438\u0434\u0436\u0435\u0442\u0435?'
+	                ),
+	                _react2.default.createElement('input', { type: 'checkbox', name: 'show_provider_info', checked: storage[activeProvider].show_provider_info, onChange: this.handleChangeShowProviderInfo })
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'line clearfix' },
+	                _react2.default.createElement(
+	                    'p',
+	                    { className: 'label' },
+	                    '\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435 \u0432\u0438\u0434\u0436\u0435\u0442\u0430'
+	                ),
+	                _react2.default.createElement('input', { type: 'text', name: 'widget_name', value: storage[activeProvider].widget_name, onChange: this.handleNameChange })
 	            )
 	        );
 	    }

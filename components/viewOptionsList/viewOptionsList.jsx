@@ -76,7 +76,23 @@ var ViewOptionsList = React.createClass({
 
     handleTitleChange: function (event) {
         AppDispatcher.dispatch({
-            eventName: 'change-title',
+            eventName: 'change-widget-title',
+            newItem: [this.state.provider, event.target.value]
+        });
+    },
+
+    handleChangeShowProviderInfo: function () {
+        var storage = window.Tabs.tabsList;
+
+        AppDispatcher.dispatch({
+            eventName: 'change-show-provider-info',
+            newItem: [this.state.provider, !storage[this.state.provider].show_provider_info]
+        });
+    },
+
+    handleNameChange: function (event) {
+        AppDispatcher.dispatch({
+            eventName: 'change-widget-name',
             newItem: [this.state.provider, event.target.value]
         });
     },
@@ -186,6 +202,14 @@ var ViewOptionsList = React.createClass({
                         <SketchPicker disableAlpha={true} color={ storage[activeProvider].extra_text_color }
                                       onChange={ this.handleChangeExtraTextColor }/>
                     </div> : null }
+                </div>
+                <div className="line clearfix">
+                    <p className="label">Показывать провайдера на виджете?</p>
+                    <input type="checkbox" name="show_provider_info" checked={storage[activeProvider].show_provider_info} onChange={this.handleChangeShowProviderInfo}/>
+                </div>
+                <div className="line clearfix">
+                    <p className="label">Название виджета</p>
+                    <input type="text" name="widget_name" value={storage[activeProvider].widget_name} onChange={this.handleNameChange}/>
                 </div>
             </div>
         );

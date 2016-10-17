@@ -26,6 +26,25 @@ $default-font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica 
       border-bottom: 2px solid #337ab7;
       background: #f8f8f8;
     }
+
+    .default-widget {
+      .tab-element {
+        display: inline-block;
+      }
+
+      .copy-widget {
+        display: inline-block;
+        cursor: pointer;
+        background: white;
+        padding: 3px 12px;
+        font-size: 22px;
+        vertical-align: middle;
+
+        &:hover{
+          background: #c8c9c8;
+        }
+      }
+    }
   }
   .tab-content {
     .provider {

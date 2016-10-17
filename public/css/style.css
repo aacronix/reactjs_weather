@@ -17,6 +17,17 @@
     .tabs-wrapper .tab-list .active {
       border-bottom: 2px solid #337ab7;
       background: #f8f8f8; }
+    .tabs-wrapper .tab-list .default-widget .tab-element {
+      display: inline-block; }
+    .tabs-wrapper .tab-list .default-widget .copy-widget {
+      display: inline-block;
+      cursor: pointer;
+      background: white;
+      padding: 3px 12px;
+      font-size: 22px;
+      vertical-align: middle; }
+      .tabs-wrapper .tab-list .default-widget .copy-widget:hover {
+        background: #c8c9c8; }
   .tabs-wrapper .tab-content .provider {
     width: 98%;
     margin: 0 auto; }
