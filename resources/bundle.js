@@ -23377,6 +23377,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var ENTRY_POINT = "http://bitrix-module-experience.local/";
+
 	var ProviderItem = _react2.default.createClass({
 	    displayName: 'ProviderItem',
 
@@ -23385,6 +23387,39 @@
 	            selectedOption: this.props.providerId,
 	            provider: this.props.data.activeProvider
 	        };
+	    },
+
+	    validateKey: function validateKey(provider, apiKey, appKey) {
+	        var url = ENTRY_POINT + '/bitrix/tools//weather_api.php';
+
+	        return $.ajax({
+	            typ: "GET",
+	            url: url,
+	            dataType: 'json',
+	            data: {
+	                action: 'validateKey',
+	                provider: provider,
+	                apiKey: apiKey,
+	                appKey: appKey
+	            },
+	            dataFilter: function dataFilter(data) {
+	                console.log(data);
+	                // var data = JSON.parse(data);
+	                //
+	                // var response = [];
+	                // response = {
+	                //     code: data.code,
+	                //     widget: report.widget,
+	                //     provider: report.provider,
+	                //     apiKeyValidation: report.apiKeyValidation,
+	                //     appKeyValidation: report.appKeyValidation,
+	                //     apiKey: report.appKey,
+	                //     appKey: report.appKey
+	                // };
+	                //
+	                // return JSON.stringify(response);
+	            }
+	        });
 	    },
 
 	    handleOptionChange: function handleOptionChange() {
@@ -23412,7 +23447,9 @@
 	                    { className: 'label' },
 	                    'Api key:'
 	                ),
-	                _react2.default.createElement('input', { type: 'text', name: props.name + '_api_key', value: props.api_key })
+	                _react2.default.createElement('input', { type: 'text', name: props.name + '_api_key', value: props.api_key, onChange: function onChange() {
+	                        _this.validateKey(props.name, props.api_key, props.app_key);
+	                    } })
 	            );
 	        }
 

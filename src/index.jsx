@@ -5,6 +5,7 @@ import TabsList from '../components/tabsList/tabsList.jsx';
 
 import {MaterialPicker} from 'react-color';
 
+
 console.clear();
 
 window.PointsList = {
